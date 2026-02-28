@@ -1,0 +1,10 @@
+{
+  "siteName": {
+    "ar": "ونيس",
+    "en": "Wanis",
+    "it": "Wanis"
+  },
+  "adminUser": "wanis",
+  "adminPass": "change-me",
+  "sessionSecret": "change-this-secret"
+}
