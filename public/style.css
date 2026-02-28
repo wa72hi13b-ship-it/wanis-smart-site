@@ -1,0 +1,4 @@
+body{background:black;color:#39ff14}
+/* Link color on dark background */
+a, a:visited { color: var(--yellow); }
+a:hover { color: var(--green); }
