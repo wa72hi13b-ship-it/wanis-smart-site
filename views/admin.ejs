@@ -1,0 +1,32 @@
+<section class="card">
+  <div class="toolbar" style="justify-content:space-between">
+    <div style="font-weight:900"><%= tr.admin %></div>
+    <form method="post" action="/admin/logout?lang=<%= lang %>"><button class="btn ghost" type="submit"><%= tr.logout %></button></form>
+  </div>
+  <div class="toolbar">
+    <a class="btn primary" href="/admin/new?lang=<%= lang %>"><%= tr.add %></a>
+    <a class="btn ghost" href="/?lang=<%= lang %>"><%= tr.home %></a>
+  </div>
+  <div class="hr"></div>
+
+  <% if (!items.length){ %><div class="notice"><%= tr.noItems %></div>
+  <% } else { %>
+    <div class="items">
+      <% items.forEach(function(it){
+        const title = (lang==='ar'? it.title_ar : (lang==='it'? it.title_it : it.title_en)) || (it.title_ar||it.title_en||it.title_it) || ('#'+it.id);
+      %>
+      <div class="item">
+        <div class="meta"><span class="tag"><%= it.type.toUpperCase() %></span><span class="date">#<%= it.id %></span></div>
+        <div style="font-weight:900"><%= title %></div>
+        <div class="toolbar">
+          <a class="btn ghost" href="/item/<%= it.id %>?lang=<%= lang %>"><%= tr.open %></a>
+          <a class="btn ghost" href="/admin/edit/<%= it.id %>?lang=<%= lang %>"><%= tr.edit %></a>
+          <form method="post" action="/admin/delete/<%= it.id %>?lang=<%= lang %>" onsubmit="return confirm('Delete?')">
+            <button class="btn ghost" type="submit"><%= tr.delete %></button>
+          </form>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+  <% } %>
+</section>

@@ -1,0 +1,37 @@
+<%
+  const title = (lang==='ar'? item.title_ar : (lang==='it'? item.title_it : item.title_en)) || (item.title_ar||item.title_en||item.title_it) || ('#'+item.id);
+  const body = (lang==='ar'? item.body_ar : (lang==='it'? item.body_it : item.body_en)) || (item.body_ar||item.body_en||item.body_it) || "";
+%>
+<section class="card">
+  <div class="toolbar" style="justify-content:space-between">
+    <a class="btn ghost" href="/?lang=<%= lang %>"><%= tr.back %></a>
+    <a class="btn primary" href="/admin/edit/<%= item.id %>?lang=<%= lang %>"><%= tr.edit %></a>
+  </div>
+  <div class="hr"></div>
+
+  <h1 style="font-size:30px"><%= title %></h1>
+  <% if (body){ %><p style="white-space:pre-wrap"><%= body %></p><div class="hr"></div><% } %>
+
+  <% if (item.type==='photo' || item.type==='art'){ %>
+    <% if (item.file_path){ %><img class="thumb" style="aspect-ratio:auto" src="<%= item.file_path %>" alt="" /><% } %>
+
+  <% } else if (item.type==='audio'){ %>
+    <% if (item.file_path){ %><audio controls style="width:100%"><source src="<%= item.file_path %>" /></audio><% } %>
+
+  <% } else if (item.type==='video'){ %>
+    <% if (item.file_path){ %><video controls style="width:100%;border-radius:14px;border:1px solid rgba(255,255,255,.10);"><source src="<%= item.file_path %>" /></video><% } %>
+
+  <% } else if (item.type==='pdf'){ %>
+    <% if (item.file_path){ %>
+      <div class="notice small"><a href="<%= item.file_path %>" target="_blank" rel="noreferrer"><%= tr.open %></a></div>
+      <div style="height:75vh;margin-top:12px;"><iframe src="<%= item.file_path %>#toolbar=1" style="width:100%;height:100%;border:1px solid rgba(255,255,255,.10);border-radius:14px;background:rgba(255,255,255,.03)"></iframe></div>
+    <% } %>
+
+  <% } else if (item.type==='writing'){ %>
+    <% if (!body){ %><div class="notice"><%= tr.content %>: —</div><% } %>
+  <% } %>
+
+  <% if (!item.file_path && item.type!=='writing'){ %>
+    <div class="notice"><% if (lang==='ar'){ %>لا يوجد ملف مرفوع لهذا العنصر بعد.<% } else if (lang==='it'){ %>Nessun file caricato.<% } else { %>No file uploaded yet.<% } %></div>
+  <% } %>
+</section>

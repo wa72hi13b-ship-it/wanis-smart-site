@@ -1,0 +1,52 @@
+<%
+  const titleByType = {all: tr.latest, photo: tr.photos, art: tr.art, writing: tr.writings, audio: tr.audio, video: tr.video, pdf: tr.pdf};
+%>
+<section class="grid grid-2">
+  <div class="card">
+    <span class="badge">AR / EN / IT • Black + Lime + Yellow</span>
+    <h1><%= siteName %></h1>
+    <p>
+      <% if (lang==='ar'){ %>معرض شخصي للصور والأعمال الفنية والكتابات، مع دعم الصوت والفيديو وملفات PDF داخل المتصفح.<% } %>
+      <% if (lang==='en'){ %>Personal portfolio for photos, art and writings, with audio, video and in-browser PDF.<% } %>
+      <% if (lang==='it'){ %>Portfolio personale per foto, arte e scritti, con supporto per audio, video e PDF nel browser.<% } %>
+    </p>
+    <div class="toolbar">
+      <a class="btn primary" href="/admin?lang=<%= lang %>"><%= tr.admin %></a>
+      <a class="btn ghost" href="/?type=all&lang=<%= lang %>"><%= tr.latest %></a>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><%= titleByType[type] || tr.latest %></h2>
+    <p class="small">
+      <% if (lang==='ar'){ %>استخدم التصنيفات بالأعلى للتنقّل: صور، فن، كتابات، صوت، فيديو، PDF.<% } %>
+      <% if (lang==='en'){ %>Use the top filters: photos, art, writings, audio, video, PDF.<% } %>
+      <% if (lang==='it'){ %>Usa i filtri in alto: foto, arte, scritti, audio, video, PDF.<% } %>
+    </p>
+  </div>
+</section>
+
+<section class="card">
+  <% if (!items.length){ %>
+    <div class="notice"><%= tr.noItems %></div>
+  <% } else { %>
+    <div class="items">
+      <% items.forEach(function(it){
+        const title = (lang==='ar'? it.title_ar : (lang==='it'? it.title_it : it.title_en)) || (it.title_ar||it.title_en||it.title_it) || ('#'+it.id);
+        const thumb = (it.type==='photo' || it.type==='art') ? it.file_path : null;
+      %>
+      <div class="item">
+        <div class="meta">
+          <span class="tag"><%= it.type.toUpperCase() %></span>
+          <span class="date"><%= (it.created_at || '').slice(0,10) %></span>
+        </div>
+        <% if (thumb){ %><img class="thumb" src="<%= thumb %>" alt="" loading="lazy" /><% } %>
+        <div style="display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap">
+          <div style="font-weight:900"><%= title %></div>
+          <a class="btn ghost" href="/item/<%= it.id %>?lang=<%= lang %>"><%= tr.open %></a>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+  <% } %>
+</section>

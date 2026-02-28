@@ -1,0 +1,55 @@
+<% const isEdit = !!item; %>
+<section class="card" style="max-width:900px;margin:0 auto">
+  <div class="toolbar" style="justify-content:space-between">
+    <div style="font-weight:900"><%= isEdit ? (tr.edit + " #" + item.id) : tr.add %></div>
+    <a class="btn ghost" href="/admin?lang=<%= lang %>"><%= tr.back %></a>
+  </div>
+
+  <% if (error){ %><div class="error"><%= error %></div><div class="hr"></div><% } else { %><div class="hr"></div><% } %>
+
+  <form method="post" action="/admin/save?lang=<%= lang %>" enctype="multipart/form-data">
+    <% if (isEdit){ %><input type="hidden" name="id" value="<%= item.id %>" /><% } %>
+
+    <label class="small"><%= tr.choose %> Type</label>
+    <select name="type" required>
+      <option value="">—</option>
+      <option value="photo" <%= (isEdit && item.type==='photo')?'selected':'' %>>photo</option>
+      <option value="art" <%= (isEdit && item.type==='art')?'selected':'' %>>art</option>
+      <option value="writing" <%= (isEdit && item.type==='writing')?'selected':'' %>>writing</option>
+      <option value="audio" <%= (isEdit && item.type==='audio')?'selected':'' %>>audio</option>
+      <option value="video" <%= (isEdit && item.type==='video')?'selected':'' %>>video</option>
+      <option value="pdf" <%= (isEdit && item.type==='pdf')?'selected':'' %>>pdf</option>
+    </select>
+
+    <div class="hr"></div>
+
+    <div class="grid grid-3">
+      <div><label class="small"><%= tr.title %> (AR)</label><input class="input" name="title_ar" value="<%= isEdit ? (item.title_ar||'') : '' %>" /></div>
+      <div><label class="small"><%= tr.title %> (EN)</label><input class="input" name="title_en" value="<%= isEdit ? (item.title_en||'') : '' %>" /></div>
+      <div><label class="small"><%= tr.title %> (IT)</label><input class="input" name="title_it" value="<%= isEdit ? (item.title_it||'') : '' %>" /></div>
+    </div>
+
+    <div style="height:10px"></div>
+
+    <div class="grid grid-3">
+      <div><label class="small"><%= tr.content %> (AR)</label><textarea name="body_ar"><%= isEdit ? (item.body_ar||'') : '' %></textarea></div>
+      <div><label class="small"><%= tr.content %> (EN)</label><textarea name="body_en"><%= isEdit ? (item.body_en||'') : '' %></textarea></div>
+      <div><label class="small"><%= tr.content %> (IT)</label><textarea name="body_it"><%= isEdit ? (item.body_it||'') : '' %></textarea></div>
+    </div>
+
+    <div class="hr"></div>
+
+    <label class="small"><%= tr.file %> (image / mp3 / mp4 / pdf)</label>
+    <% if (isEdit && item.file_path){ %>
+      <input type="hidden" name="existing_file_path" value="<%= item.file_path %>" />
+      <div class="notice small">
+        <a href="<%= item.file_path %>" target="_blank" rel="noreferrer"><%= item.file_path %></a>
+      </div>
+      <div style="height:10px"></div>
+    <% } %>
+    <input class="input" type="file" name="file" />
+
+    <div style="height:14px"></div>
+    <button class="btn primary" type="submit"><%= tr.save %></button>
+  </form>
+</section>

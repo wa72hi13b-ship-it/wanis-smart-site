@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="<%= lang %>" dir="<%= dir %>">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title><%= siteName %></title>
+  <link rel="stylesheet" href="/public/css/style.css" />
+  <script defer src="/public/js/main.js"></script>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <nav>
+      <div class="brand"><%= siteName %><span class="dot">•</span></div>
+      <div class="links">
+        <a href="/?lang=<%= lang %>"><%= tr.home %></a>
+        <a href="/?type=photo&lang=<%= lang %>"><%= tr.photos %></a>
+        <a href="/?type=art&lang=<%= lang %>"><%= tr.art %></a>
+        <a href="/?type=writing&lang=<%= lang %>"><%= tr.writings %></a>
+        <a href="/?type=audio&lang=<%= lang %>"><%= tr.audio %></a>
+        <a href="/?type=video&lang=<%= lang %>"><%= tr.video %></a>
+        <a href="/?type=pdf&lang=<%= lang %>"><%= tr.pdf %></a>
+        <a href="/admin?lang=<%= lang %>"><%= tr.admin %></a>
+      </div>
+      <div class="lang">
+        <% langs.forEach(function(l){ %>
+          <a class="<%= (l===lang?'active':'') %>" href="<%= activePath %>?<%= Object.keys(query||{}).filter(k=>k!=='lang').map(k=>`${k}=${encodeURIComponent(query[k])}`).join('&') %><%= (Object.keys(query||{}).filter(k=>k!=='lang').length? '&':'') %>lang=<%= l %>"><%= l.toUpperCase() %></a>
+        <% }) %>
+      </div>
+    </nav>
+  </div>
+</header>
+<main class="wrap"><%- body %></main>
+<footer><div class="wrap small">© <%= new Date().getFullYear() %> <%= siteName %> — AR / EN / IT • Black + Lime + Yellow</div></footer>
+</body>
+</html>
